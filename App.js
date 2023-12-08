@@ -48,7 +48,7 @@ export default function App() {
        <Text style={styles.statusText}>Calculadora</Text>
       </View>
         <View style={styles.content}>
-          <Text>Digite um Número</Text>
+          <Text>Digite 2 Números</Text>
           <TextInput
           id='1'
           style={styles.input}
