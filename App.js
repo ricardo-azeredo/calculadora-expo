@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, TextInput, Button, TouchableHighlight, Pressable } from 'react-native';
+import { 
+  SafeAreaView, 
+  StyleSheet, 
+  Text, 
+  View, 
+  TextInput, 
+  Alert, 
+  Pressable 
+} from 'react-native';
 
 
 export default function App() {
@@ -7,27 +15,31 @@ export default function App() {
   const [number2, onChangeNumber2] = useState();
   const [result, setResult] = useState('');
   const [tipo, setTipo] = useState('');
-
-  function changeAdicao(firtsNumber, number2){
-    let resultado = parseInt(firtsNumber) + parseInt(number2);
-    setResult(resultado);     
-    setTipo('Adição');
+  
+  function calcular(firtsNumber, number2, tipo){
+    if (isNaN(parseInt(firtsNumber)) || isNaN(parseInt(number2))) {
+      Alert.alert('Atenção','Tem quer ser um número');
+    } else {
+      var resultado = '';
+      switch(tipo){
+        case 'adicao': 
+          resultado = parseInt(firtsNumber) + parseInt(number2);
+          break;
+        case 'subtracao': 
+          resultado = parseInt(firtsNumber) - parseInt(number2);
+          break;
+        case 'multiplicacao': 
+        resultado = parseInt(firtsNumber) * parseInt(number2);
+        break;
+        case 'divisao': 
+          resultado = parseInt(firtsNumber) / parseInt(number2);
+          break;
+      }
+      setResult(resultado);     
+      setTipo(tipo);
+    }
   }
-  function changeSubtracao(firtsNumber, number2){
-    let resultado = parseInt(firtsNumber) - parseInt(number2);
-    setResult(resultado);     
-    setTipo('Subtração');
-  }
-  function changeDivisao(firtsNumber, number2){
-    let resultado = parseInt(firtsNumber) / parseInt(number2);
-    setResult(resultado);     
-    setTipo('Divisão');
-  }
-  function changeMultiplicacao(firtsNumber, number2){
-    let resultado = parseInt(firtsNumber) * parseInt(number2);
-    setResult(resultado);     
-    setTipo('Multiplicação');
-  }
+  
   
   return (
     
@@ -53,16 +65,16 @@ export default function App() {
           placeholder="Digite um número"
           inputMode="numeric"
         />
-        <Pressable style={styles.button} onPress={e => changeAdicao(firtsNumber,number2)}>
+        <Pressable style={styles.button} onPress={() => calcular(firtsNumber,number2,'adicao')}>
           <Text style={styles.buttonText}>Adição</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={e => changeSubtracao(firtsNumber,number2)} >
+        <Pressable style={styles.button} onPress={() => calcular(firtsNumber,number2,'subtracao')} >
           <Text  style={styles.buttonText}>Subtração</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={e => changeDivisao(firtsNumber,number2)} >
+        <Pressable style={styles.button} onPress={() => calcular(firtsNumber,number2, 'divisao')} >
           <Text  style={styles.buttonText}>Divisão</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={e => changeMultiplicacao(firtsNumber,number2)} >
+        <Pressable style={styles.button} onPress={() => calcular(firtsNumber,number2,'multiplicacao')} >
           <Text  style={styles.buttonText}>Multiplicação</Text>
         </Pressable>
 
@@ -95,6 +107,8 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
+    marginTop: '5rem',
+    
   },
   input: {
     height: 40,
@@ -104,21 +118,21 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#43e',
-    padding: '1rem',
-    margin: '.5rem',
-    width: '8rem',
-    height: '3rem',  
+    padding: 8,
+    margin: 10,
+    width: 140,
+    height: 45,  
     flex: .05,
     justifyContent: 'center',
     alignItems: 'center', 
   },
   buttonText: {
     color: '#fff',
-    fontSize: '1rem',
+    fontSize: 16,
   },
   text: {
     color: '#000',
-    width: '8rem',
-    height: '1rem',
+    width: 120,
+    height: 16,
   }
 });
